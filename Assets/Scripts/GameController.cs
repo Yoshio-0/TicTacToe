@@ -6,9 +6,11 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     public Text[] buttonList;
-    private string playerSide;
     public GameObject gameOverPanel;
     public Text gameOverText;
+
+    private string playerSide;
+    private int moveCount;
 
     void Awake()
     {
@@ -16,6 +18,8 @@ public class GameController : MonoBehaviour
         playerSide = "X";
 
         gameOverPanel.SetActive(false);
+
+        moveCount = 0;
     }
 
     void SetGameControllerReferenceOnButtons()
@@ -74,6 +78,14 @@ public class GameController : MonoBehaviour
         }
 
         ChangeSides();
+
+        moveCount++;
+
+        if (moveCount >= 9)
+        {
+            gameOverPanel.SetActive(true);
+            gameOverText.text = "It's a draw!";
+        }
     }
 
     void ChangeSides()
@@ -90,6 +102,14 @@ public class GameController : MonoBehaviour
 
         gameOverPanel.SetActive(true);
         gameOverText.text = playerSide + " Wins!"; // Note the space after the first " and Wins!"
+    }
+
+    void SetGameOverText(string value)
+    {
+        gameOverPanel.SetActive(true);
+        gameOverText.text = value;
+
+        SetGameOverText("It's a draw!");
     }
 
 }
