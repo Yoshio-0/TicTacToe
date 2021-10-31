@@ -7,11 +7,15 @@ public class GameController : MonoBehaviour
 {
     public Text[] buttonList;
     private string playerSide;
+    public GameObject gameOverPanel;
+    public Text gameOverText;
 
     void Awake()
     {
         SetGameControllerReferenceOnButtons();
         playerSide = "X";
+
+        gameOverPanel.SetActive(false);
     }
 
     void SetGameControllerReferenceOnButtons()
@@ -72,16 +76,20 @@ public class GameController : MonoBehaviour
         ChangeSides();
     }
 
+    void ChangeSides()
+    {
+        playerSide = (playerSide == "X") ? "O" : "X"; // Note: Capital Letters for "X" and "O"
+    }
+
     void GameOver()
     {
         for (int i = 0; i < buttonList.Length; i++)
         {
             buttonList[i].GetComponentInParent<Button>().interactable = false;
         }
+
+        gameOverPanel.SetActive(true);
+        gameOverText.text = playerSide + " Wins!"; // Note the space after the first " and Wins!"
     }
 
-    void ChangeSides()
-    {
-        playerSide = (playerSide == "X") ? "O" : "X"; // Note: Capital Letters for "X" and "O"
-    }
 }
